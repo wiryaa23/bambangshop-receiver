@@ -66,18 +66,18 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   [x] Commit: `Create Notification database and Notification repository struct skeleton.`
     -   [x] Commit: `Implement add function in Notification repository.`
     -   [x] Commit: `Implement list_all_as_string function in Notification repository.`
-    -   [ ] Write answers of your learning module's "Reflection Subscriber-1" questions in this README.
+    -   [x] Write answers of your learning module's "Reflection Subscriber-1" questions in this README.
 -   **STAGE 2: Implement services and controllers**
-    -   [ ] Commit: `Create Notification service struct skeleton.`
-    -   [ ] Commit: `Implement subscribe function in Notification service.`
-    -   [ ] Commit: `Implement subscribe function in Notification controller.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification service.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification controller.`
-    -   [ ] Commit: `Implement receive_notification function in Notification service.`
-    -   [ ] Commit: `Implement receive function in Notification controller.`
-    -   [ ] Commit: `Implement list_messages function in Notification service.`
-    -   [ ] Commit: `Implement list function in Notification controller.`
-    -   [ ] Write answers of your learning module's "Reflection Subscriber-2" questions in this README.
+    -   [x] Commit: `Create Notification service struct skeleton.`
+    -   [x] Commit: `Implement subscribe function in Notification service.`
+    -   [x] Commit: `Implement subscribe function in Notification controller.`
+    -   [x] Commit: `Implement unsubscribe function in Notification service.`
+    -   [x] Commit: `Implement unsubscribe function in Notification controller.`
+    -   [x] Commit: `Implement receive_notification function in Notification service.`
+    -   [x] Commit: `Implement receive function in Notification controller.`
+    -   [x] Commit: `Implement list_messages function in Notification service.`
+    -   [x] Commit: `Implement list function in Notification controller.`
+    -   [x] Write answers of your learning module's "Reflection Subscriber-2" questions in this README.
 
 ## Your Reflections
 This is the place for you to write reflections:
@@ -88,22 +88,22 @@ This is the place for you to write reflections:
 
 >1.In this tutorial, we used RwLock<> to synchronise the use of Vec of Notifications. Explain why it is necessary for this case, and explain why we do not use Mutex<> instead?
 
-Placeholder jawaban
+Pada modul kali ini, kita menggunakan RwLock<> dibanding Mutex<> karena RwLock<> dapat mensinkronisasi akses banyak thread untuk membaca data pada suatu waktu, tetapi tetap menjaga kondisi bahwa hanya satu thread yang dapat menulis saat ada perubahan. Karena pada modul kali ini kita lebih sering membaca banyak thread tanpa melakukan perubahan, maka kita menggunakan RwLock<>. Jika menggunakan Mutex<>, maka Mutex<> hanya memungkinkan satu thread untuk membaca data pada suatu waktu, baik itu membaca atau menulis, sehingga berpotensi membuat proses pembacaan data menjadi tidak efisien.
 
 >2.In this tutorial, we used lazy_static external library to define Vec and DashMap as a “static” variable. Compared to Java where we can mutate the content of a static variable via a static function, why did not Rust allow us to do so?
 
-Placeholder jawaban
+Rust tidak memperbolehkan kita untuk mengubah isi variabel static secara langsung tanpa pengaman, dengan tujuan untuk memenuhi aturan ownership dan thread-safety yang sangat ketat agar dapat mencegah terjadinya race condition. Berbeda dengan Java, Rust mengutamakan keamanan data dan menjaga agar program dapat dijalankan secara paralel. Menggunakan `lazy_static` untuk membuat Vec atau DashMap sebagai variabel static memungkinkan kita membuat variabel Singleton, sehingga memastikan hanya ada satu instance dalam program.
 
 #### Reflection Subscriber-2
 
 >1. Have you explored things outside of the steps in the tutorial, for example: src/lib.rs? If not, explain why you did not do so. If yes, explain things that you have learned from those other parts of code.
 
-Placeholder jawaban
+Ya, saya sudah melihat beberapa bagian lain dari kode yang belum dibahas pada tutorial. Contohnya adalah `lib.rs` yang bertgas untuk mengatur konfigurasi Singleton aplikasi, menangani HTTP requests dan responses dengan Rocket dan Reqwest, serta memberikan mekanisme untuk manajemen error. Adapun `main.rs` yang bertanggung jawab untuk meluncurkan aplikasi menggunakan Rocket, mendeklarasikan beberapa modul (seperti controller, service, repository, dan model), mengelola dependency global seperti reqwest::Client, dan menghubungkan route-route yang ditangani oleh controller.
 
 >2. Since you have completed the tutorial by now and have tried to test your notification system by spawning multiple instances of Receiver, explain how Observer pattern eases you to plug in more subscribers. How about spawning more than one instance of Main app, will it still be easy enough to add to the system?
 
-Placeholder jawaban
+Observer pattern yang telah diterapkan memudahkan penambahan Observer baru. Sistem tetap mudah untuk dikembangkan berkat penerapan Observer pattern, karena setiap instance dari Main App bertanggung jawab untuk mengirimkan dan mengelola notifikasi kepada observer atau subscriber yang telah terdaftar. Apabila kita perlu mengirimkan notifikasi ke semua observer akibat perubahan pada instance, kita tinggal melakukan komunikasi antar instance. Selanjutnya jika kita perlu membuat lebih dari satu instance Main App, maka kita cukup mendaftarkan observer untuk setiap instance aplikasi yang berbeda melalui pengiriman HTTP request ke API yang sesuai.
 
 >3. Have you tried to make your own Tests, or enhance documentation on your Postman collection? If you have tried those features, tell us whether it is useful for your work (it can be your tutorial work or your Group Project).
 
-Placeholder jawaban
+Ya, fitur collection di Postman sangat bermanfaat untuk melakukan verifikasi bahwa program mengirimkan respons yang sesuai dengan harapan kita. Ini membantu kita dalam menggunakan API dan melihat apakah respons yang diterima sesuai dengan data yang ada dari aplikasi atau tidak. Hal ini memastikan bahwa request dan respons telah bekerja dengan baik.
